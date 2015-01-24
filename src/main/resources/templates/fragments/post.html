@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/standard_fragments::head_script">
+
+</head>
+<body>
+	<div class="container"
+		th:include="fragments/standard_fragments::header"></div>
+	<nav class="navbar  navbar-default"
+		th:include="fragments/standard_fragments::toolbar"></nav>
+	<!-- /.navbar -->
+	<div class="container"
+		th:include="fragments/standard_fragments :: navigation"></div>
+	<div class="container">
+		<div class="row row-offcanvas row-offcanvas-right">
+			<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+				<div class="panel panel-default"
+					th:include="fragments/standard_fragments :: panelShowGroups"></div>
+				<div class="panel panel-default"
+					th:include="fragments/standard_fragments :: panelEmailBox"></div>
+				<div class="panel panel-default"
+					th:include="fragments/standard_fragments :: panelShowPost"></div>
+			</div>
+			<!--/.sidebar-offcanvas-->
+
+			<div class="col-xs-12 col-sm-9">
+
+				<p class="pull-right visible-xs">
+					<button type="button" class="btn btn-primary btn-xs"
+						data-toggle="offcanvas">Toggle nav</button>
+				</p>
+
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-horizontal" enctype="multipart/form-data"
+								action="#" th:action="@{/create_post}" th:object="${post}"
+								method="post">
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<h4>Create image post</h4>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="postCategory" class="col-sm-2 control-label">Select
+										Category</label>
+									<div class="col-sm-10">
+										<select th:field="*{category}" id="postCategory" class="form-control">
+											<option  th:value="casestudy" > Case study</option>
+											<option  th:value="imaging" > Imaging </option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="postTitle" class="col-sm-2 control-label">Title</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="title"
+											id="postTitle" placeholder="title" th:field="*{title}" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="postDesciption" class="col-sm-2 control-label">Description</label>
+									<div class="col-sm-10">
+										<textarea rows="3" class="form-control" name="description"
+											id="postDesciption" placeholder="Decription"
+											th:field="*{description}">
+									
+								</textarea>
+									</div>
+									<script type="text/javascript" language="JavaScript">
+										//<![CDATA[ 
+										// Replace the <textarea id="jobDecription"> with a CKEditor
+										// instance, using default configuration.
+
+										CKEDITOR.replace('postDesciption',
+												{
+													uiColor: '#dff0d8'
+												});
+										// ]]>
+									</script>
+								</div>
+								<div class="form-group">
+									<label for="postImage" class="col-sm-2 control-label">Selected
+										post image(s)</label>
+									<div class="col-sm-10" id="selectedImageContainer">
+										<!--  img id="imageModulePreview" width="100" height="100" src="#" alt="Image not selected" /-->
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="postImage" class="col-sm-2 control-label">Post
+										image(s)</label>
+									<div class="col-sm-10">
+										<input type="file" name="files" id="files" multiple="multiple"
+											class="form-control" placeholder="file" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="button" class="btn btn-default btn-sm" onclick="uploadFormData()">Upload</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="submit" class="btn btn-default btn-sm">Create
+											Post</button>
+										<button type="button" class="btn btn-default btn-sm">Cancel</button>
+									</div>
+								</div>
+								
+							</form>
+
+							<!--  div class='file_upload' id='f1'><input name='file[]' type='file'/>1</div>
+	<div id='file_tools'>
+		<img src='images/file_add.png' id='add_file' title='Add new input'/>
+		<img src='images/file_del.png' id='del_file' title='Delete'/>
+	</div>
+	<input type='submit' name='upload' value='Upload'/>
+	
+	<input type="file" id="files" name="files[]" multiple="multiple"/>
+<output id="list"></output> -->
+
+						</div>
+					</div>
+				</div>
+				<!--/row-->
+			</div>
+			<!--/.col-xs-12.col-sm-9-->
+		</div>
+		<!--/row-->
+		<hr />
+		<footer>
+			<p>
+				&copy; Company 2014 <a th:href="@{/create-group}">Create group</a>
+			</p>
+		</footer>
+
+	</div>
+	<!--/.container-->
+</body>
+</html>
