@@ -2,9 +2,7 @@ package com.userforums;
 
 import java.util.Properties;
 
-import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 //(exclude=DataSourceTransactionManagerAutoConfiguration.class)

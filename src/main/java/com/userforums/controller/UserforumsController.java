@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -17,7 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.ldap.userdetails.LdapUserDetails;
+import org.springframework.security.ldap.userdetails.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,6 +37,7 @@ import com.userforums.pojo.Post;
 import com.userforums.pojo.PostDocument;
 import com.userforums.service.GroupService;
 import com.userforums.service.ImageService;
+import com.userforums.service.LdapUserService;
 import com.userforums.service.PostDocService;
 import com.userforums.service.PostService;
 import com.userforums.utils.Utils;
@@ -58,6 +60,9 @@ public class UserforumsController
 
 	@Autowired
 	private Utils utils;
+	
+	@Autowired
+	private LdapUserService ldapService;
 
 	@RequestMapping(value = "/")
 	public ModelAndView index(HttpServletRequest request)
@@ -73,6 +78,48 @@ public class UserforumsController
 		mav.addObject("groups", groups);
 
 		session.setAttribute("groupsInsession", groups);
+
+		return mav;
+	}
+
+	@RequestMapping(value="/login")
+	public String login()
+	{
+		return "login";
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	public String logout()
+	{
+		return "login";
+	}
+
+	@RequestMapping(value = "/groups_overview")
+	public ModelAndView login(HttpServletRequest request)
+	{
+		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		//LdapUserDetails user = (LdapUserDetails) authentication.getPrincipal();
+		
+		
+		
+		HttpSession session = request.getSession();
+
+		ModelAndView mav = new ModelAndView("fragments/groups_overview");
+
+		mav.addObject("welcome", "Welcome to user forums application");
+
+		Map<Integer, Group> groups = groupService.getAllAsMap();
+
+		mav.addObject("groups", groups);
+
+		session.setAttribute("groupsInsession", groups);
+		
+		String userName = request.getRemoteUser();
+		
+		Map<String, String> attr = ldapService.getUserAttributes(userName);
+		
+		mav.addObject("userDisName", attr.get("fullname"));
 
 		return mav;
 	}
@@ -355,84 +402,57 @@ public class UserforumsController
 		}
 	}
 
-	/*@RequestMapping(value = "/post_doc/{postDocId}")
-	public @ResponseBody void renderPostImage(HttpServletResponse response, HttpServletRequest request, @PathVariable("postDocId") Integer postDocId)
-	{
-		response.setContentType("text/html;charset=UTF-8");
-
-		HttpSession session = request.getSession();
-
-		@SuppressWarnings("unchecked")
-		Map<Integer, PostDocument> postDocsAsMap = (Map<Integer, PostDocument>) session.getAttribute("postDocuments");
-
-		if (postDocsAsMap != null && !postDocsAsMap.isEmpty())
-		{
-
-			PostDocument postDoc = postDocsAsMap.get(postDocId);
-
-			response.setHeader("Content-Disposition", "inline;filename=tom");
-			response.setContentType(postDoc.getFormat());
-
-			try
-			{
-				OutputStream out = response.getOutputStream();
-				IOUtils.copy(postDoc.getDocContent().getBinaryStream(), out);
-
-				out.flush();
-				out.close();
-			}
-			catch (IOException | SQLException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@RequestMapping(value = "/post_thumbnails/{postId}")
-	public @ResponseBody void getPostThumbnails(HttpServletResponse response, HttpServletRequest request, @PathVariable("postId") Integer postId)
-	{
-		response.setContentType("text/html;charset=UTF-8");
-
-		HttpSession session = request.getSession();
-
-		@SuppressWarnings("unchecked")
-		Map<Integer, Post> postsAsMap = (Map<Integer, Post>) session.getAttribute("postsInSession");
-
-		if (postsAsMap != null && !postsAsMap.isEmpty())
-		{
-			Post post = postsAsMap.get(postId);
-
-			if (post != null)
-			{
-				Set<PostDocument> postDocs = post.getPostDoc();
-
-				if (postDocs.size() > 0)
-				{
-					PostDocument postDoc = (PostDocument) postDocs.toArray()[0];
-
-					response.setHeader("Content-Disposition", "inline;filename=tom");
-					response.setContentType(postDoc.getFormat());
-
-					try
-					{
-						OutputStream out = response.getOutputStream();
-						IOUtils.copy(postDoc.getDocContent().getBinaryStream(), out);
-
-						out.flush();
-						out.close();
-					}
-					catch (IOException | SQLException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-	
-	*/
+	/*
+	 * @RequestMapping(value = "/post_doc/{postDocId}") public @ResponseBody
+	 * void renderPostImage(HttpServletResponse response, HttpServletRequest
+	 * request, @PathVariable("postDocId") Integer postDocId) {
+	 * response.setContentType("text/html;charset=UTF-8");
+	 * 
+	 * HttpSession session = request.getSession();
+	 * 
+	 * @SuppressWarnings("unchecked") Map<Integer, PostDocument> postDocsAsMap =
+	 * (Map<Integer, PostDocument>) session.getAttribute("postDocuments");
+	 * 
+	 * if (postDocsAsMap != null && !postDocsAsMap.isEmpty()) {
+	 * 
+	 * PostDocument postDoc = postDocsAsMap.get(postDocId);
+	 * 
+	 * response.setHeader("Content-Disposition", "inline;filename=tom");
+	 * response.setContentType(postDoc.getFormat());
+	 * 
+	 * try { OutputStream out = response.getOutputStream();
+	 * IOUtils.copy(postDoc.getDocContent().getBinaryStream(), out);
+	 * 
+	 * out.flush(); out.close(); } catch (IOException | SQLException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } } }
+	 * 
+	 * @RequestMapping(value = "/post_thumbnails/{postId}") public @ResponseBody
+	 * void getPostThumbnails(HttpServletResponse response, HttpServletRequest
+	 * request, @PathVariable("postId") Integer postId) {
+	 * response.setContentType("text/html;charset=UTF-8");
+	 * 
+	 * HttpSession session = request.getSession();
+	 * 
+	 * @SuppressWarnings("unchecked") Map<Integer, Post> postsAsMap =
+	 * (Map<Integer, Post>) session.getAttribute("postsInSession");
+	 * 
+	 * if (postsAsMap != null && !postsAsMap.isEmpty()) { Post post =
+	 * postsAsMap.get(postId);
+	 * 
+	 * if (post != null) { Set<PostDocument> postDocs = post.getPostDoc();
+	 * 
+	 * if (postDocs.size() > 0) { PostDocument postDoc = (PostDocument)
+	 * postDocs.toArray()[0];
+	 * 
+	 * response.setHeader("Content-Disposition", "inline;filename=tom");
+	 * response.setContentType(postDoc.getFormat());
+	 * 
+	 * try { OutputStream out = response.getOutputStream();
+	 * IOUtils.copy(postDoc.getDocContent().getBinaryStream(), out);
+	 * 
+	 * out.flush(); out.close(); } catch (IOException | SQLException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } } } } }
+	 */
 
 	@RequestMapping(value = "/render_post_doc/{postId}/{postDocId}")
 	public @ResponseBody void postDocRender(HttpServletResponse response, HttpServletRequest request, @PathVariable("postId") Integer postId, @PathVariable("postDocId") Integer postDocId)

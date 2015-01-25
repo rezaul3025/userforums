@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/standard_fragments::head_script">
+
+</head>
+<body>
+	<div class="container" th:include="fragments/standard_fragments::header"></div>
+	<nav class="navbar  navbar-default" th:include="fragments/standard_fragments::toolbar"></nav>
+	<!-- /.navbar -->
+	<div class="container" th:include="fragments/standard_fragments :: navigation"></div>
+	<div class="container">
+		<div class="row row-offcanvas row-offcanvas-right">
+			<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+				<div class="panel panel-default" th:include="fragments/standard_fragments :: panelShowGroups"></div>
+				<div class="panel panel-default" th:include="fragments/standard_fragments :: panelEmailBox"></div>
+				<div class="panel panel-default" th:include="fragments/standard_fragments :: panelShowPost"></div>
+			</div>
+			<!--/.sidebar-offcanvas-->
+
+			<div class="col-xs-12 col-sm-9">
+				<p class="pull-right visible-xs">
+					<button type="button" class="btn btn-primary btn-xs"
+						data-toggle="offcanvas">Toggle nav</button>
+				</p>
+				<div class="row">
+					<div class="col-xs-3 col-md-3" th:each="entry : ${groups}">
+						<div class="thumbnail">
+							<img th:alt="${img.altText}" th:each="img : ${entry.value.image}"
+								th:if="${img.size eq 'SMALL'}"
+								th:src="@{/group_img}+'/'+${img.imageId}" style="width:180px !important;height:110px !important"/>
+							<div class="caption">
+								<a th:href="@{/group_details}+'/'+${entry.value.groupId}" ><b th:text="${entry.value.title}"></b>
+								<p th:text="${entry.value.description} "></p></a>
+							</div>
+ 						</div>
+					</div>
+					<!--/.col-xs-6.col-lg-4-->
+				</div>
+				<!--/row-->
+			</div>
+			<!--/.col-xs-12.col-sm-9-->
+		</div>
+		<!--/row-->
+		<hr />
+		<footer>
+			<p>
+				&copy; Company 2014 <a th:href="@{/create-group}">Create group</a>
+			</p>
+		</footer>
+
+	</div>
+	<!--/.container-->
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		
+		
+</body>
+</html>

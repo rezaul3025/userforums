@@ -16,14 +16,15 @@
 	height: 250px;
 	overflow: auto;
 }
-.carousel-inner > .item > img{ 
-	width:640px; 
-	height:360px; 
+
+.carousel-inner>.item>img {
+	width: 640px;
+	height: 360px;
 }
-.carousel
-{
-	width:600px; 
-	height:400px;
+
+.carousel {
+	width: 600px;
+	height: 400px;
 }
 </style>
 <link rel="stylesheet"
@@ -31,107 +32,106 @@
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" />
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script
-		th:src="@{/js/ckeditor_4_4_6/ckeditor.js}"></script>
-		
-		<script
-		th:src="@{/js/custom/custom.js}"></script>
-		
-		
-		
-		<script type="text/javascript">
-$(document).ready(function(){
-	
-	  $('.add_field').click(function(){
-			//alert('ddfdf');
-		            var input = $('#input_clone');
-		            var clone = input.clone(true);
-		            clone.removeAttr ('id');
-		            clone.val('');
-		            clone.appendTo('.input_holder'); 
-				
-		        });
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/js/ckeditor_4_4_6/ckeditor.js}"></script>
 
-		        $('.remove_field').click(function(){
-				
-		            if($('.input_holder input:last-child').attr('id') != 'input_clone'){
-		                  $('.input_holder input:last-child').remove();
-		            }
-				
-		        });
-		        
-		        
-		        //Ex2
-		        
-		        var counter = 2;
-		        $('#del_file').hide();
-		        $('img#add_file').click(function(){
-		            $('#file_tools').before('<div class="file_upload" id="f'+counter+'"><input name="file[]" type="file" />'+counter+'</div>');
-		            $('#del_file').fadeIn(0);
-		        counter++;
-		        });
-		        $('img#del_file').click(function(){
-		            if(counter==3){
-		                $('#del_file').hide();
-		            }
-		            counter--;
-		            $('#f'+counter).remove();
-		        });
-		        
-		       /* function handleFileSelect(evt) {
-		            var files = evt.target.files; // FileList object
+<script th:src="@{/js/custom/custom.js}"></script>
 
-		            // files is a FileList of File objects. List some properties.
-		            var output = [];
-		            for (var i = 0, f; f = files[i]; i++) {
-		              output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-		                          f.size, ' bytes, last modified: ',
-		                          f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-		                          '</li>');
-		            }
-		            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-		          }
 
-		          document.getElementById('files').addEventListener('change', handleFileSelect, false);
-				*/
-		          
-		          
-});
 
-function callFileUpload(url)
-{
-	  alert('jkjjkj');
-	  $.ajax({
-		  url: url,
-		  type: 'POST',
-		  cache: false,
-		  dataType: 'json',
-		  processData: false, // Don't process the files
-		  contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-		  success: function(data, textStatus, jqXHR)
-		  {
-		  	if(typeof data.error === 'undefined')
-		  	{
-		
-		  	}
-		  	else
-		  	{
-		  
-		  	}
-		  },
-		  error: function(jqXHR, textStatus, errorThrown)
-		  {
-		  // Handle errors here
-		  console.log('ERRORS: ' + textStatus);
-		  // STOP LOADING SPINNER
-		  }
-		  }); 
-}
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
 
-      
-     </script>
+						$('.add_field').click(function() {
+							//alert('ddfdf');
+							var input = $('#input_clone');
+							var clone = input.clone(true);
+							clone.removeAttr('id');
+							clone.val('');
+							clone.appendTo('.input_holder');
+
+						});
+
+						$('.remove_field').click(
+								function() {
+
+									if ($('.input_holder input:last-child')
+											.attr('id') != 'input_clone') {
+										$('.input_holder input:last-child')
+												.remove();
+									}
+
+								});
+
+						//Ex2
+
+						var counter = 2;
+						$('#del_file').hide();
+						$('img#add_file')
+								.click(
+										function() {
+											$('#file_tools')
+													.before(
+															'<div class="file_upload" id="f'+counter+'"><input name="file[]" type="file" />'
+																	+ counter
+																	+ '</div>');
+											$('#del_file').fadeIn(0);
+											counter++;
+										});
+						$('img#del_file').click(function() {
+							if (counter == 3) {
+								$('#del_file').hide();
+							}
+							counter--;
+							$('#f' + counter).remove();
+						});
+
+						/* function handleFileSelect(evt) {
+						     var files = evt.target.files; // FileList object
+
+						     // files is a FileList of File objects. List some properties.
+						     var output = [];
+						     for (var i = 0, f; f = files[i]; i++) {
+						       output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+						                   f.size, ' bytes, last modified: ',
+						                   f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+						                   '</li>');
+						     }
+						     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+						   }
+
+						   document.getElementById('files').addEventListener('change', handleFileSelect, false);
+						 */
+
+					});
+
+	function callFileUpload(url) {
+		alert('jkjjkj');
+		$.ajax({
+			url : url,
+			type : 'POST',
+			cache : false,
+			dataType : 'json',
+			processData : false, // Don't process the files
+			contentType : false, // Set content type to false as jQuery will tell the server its a query string request
+			success : function(data, textStatus, jqXHR) {
+				if (typeof data.error === 'undefined') {
+
+				} else {
+
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				// Handle errors here
+				console.log('ERRORS: ' + textStatus);
+				// STOP LOADING SPINNER
+			}
+		});
+	}
+</script>
 </head>
 <body>
 
@@ -178,6 +178,11 @@ function callFileUpload(url)
 		<div class="row row-offcanvas row-offcanvas-right">
 			<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
 				<img th:src="@{/image/user.jpg}" alt="user" height="70" width="70" />
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="Sign Out" />
+				</form>
+				<!--  h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1 -->
+				<h4 th:text="${userDisName}"></h4>
 			</div>
 			<div class="col-xs-12 col-sm-9">
 				<div class="row">
@@ -189,7 +194,8 @@ function callFileUpload(url)
 							Question</a>
 					</div>
 					<div class="col-xs-6 col-lg-4">
-						<a class="btn btn-default" th:href="@{/create_post}" >Create Post</a>
+						<a class="btn btn-default" th:href="@{/create_post}">Create
+							Post</a>
 					</div>
 				</div>
 			</div>

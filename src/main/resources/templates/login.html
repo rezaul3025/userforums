@@ -4,15 +4,27 @@
 
 </head>
 <body>
-	<div class="container" th:include="fragments/standard_fragments::header"></div>
-	<nav class="navbar  navbar-default" th:include="fragments/standard_fragments::toolbar"></nav>
+	<div class="container"
+		th:include="fragments/standard_fragments::header"></div>
+	<nav class="navbar  navbar-default"
+		th:include="fragments/standard_fragments::toolbar"></nav>
 	<!-- /.navbar -->
-	<div class="container" th:include="fragments/standard_fragments :: navigation"></div>
 	<div class="container">
 		<div class="row row-offcanvas row-offcanvas-right">
-			<div th:if="${param.logout}">You have been logged out.</div>
-			
-			<a th:href="@{/login}" th:text="${'Sign in'}"> </a>
+			<div th:if="${param.error}">Invalid username and password.</div>
+			<form th:action="@{/login}" method="post">
+				<div>
+					<label> User Name : <input type="text" name="username" />
+					</label>
+				</div>
+				<div>
+					<label> Password: <input type="password" name="password" />
+					</label>
+				</div>
+				<div>
+					<input type="submit" value="Sign In" />
+				</div>
+			</form>
 		</div>
 		<!--/row-->
 		<hr />
@@ -29,7 +41,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-		
-		
+
+
 </body>
 </html>
