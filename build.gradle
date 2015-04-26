@@ -70,7 +70,7 @@ eclipse {
 
 remotes {
   webServer {
-    host = 'localhost:9090'
+    host = 'localhost'
     user = 'tomcat'
     password = 'tomcat'
   }
