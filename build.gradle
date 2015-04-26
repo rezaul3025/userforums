@@ -15,6 +15,7 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
+apply plugin: id 'org.hidetake.ssh' version '1.0.1'
 
 
 war {
@@ -62,6 +63,24 @@ eclipse {
          containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
 }
+
+remotes {
+    codeashobby {
+        host = project.property('localhot:9090')
+        user = project.property('tomcat')
+        password = project.property('tomcat')
+    }
+}
+
+task deploy(dependsOn: war) << {
+    ssh.run {
+        session(remotes.codeashobby) {
+            put(war.archivePath.path, '/var/lib/tomcat7/webapps')
+            //execute('sudo service tomcat restart')
+        }
+    }
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
