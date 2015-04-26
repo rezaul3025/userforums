@@ -79,7 +79,7 @@ remotes {
 task deploy(dependsOn: war) << {
     ssh.run {
         session(remotes.webServer) {
-            put(war.archivePath.path, '/var/lib/tomcat7/webapps')
+            put('build/libs/userforums-0.0.1-SNAPSHOT.war', '/var/lib/tomcat7/webapps')
             //execute('sudo service tomcat restart')
         }
     }
