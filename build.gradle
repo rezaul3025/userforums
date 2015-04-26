@@ -69,16 +69,16 @@ eclipse {
 }
 
 remotes {
-    codeashobby {
-        host = project.property(host)
-        user = project.property(host.user)
-        password = project.property(host.password)
-    }
+  webServer {
+    host = 'localhost:9090'
+    user = 'tomcat'
+    password = 'tomcat'
+  }
 }
 
 task deploy(dependsOn: war) << {
     ssh.run {
-        session(remotes.codeashobby) {
+        session(remotes.webServer) {
             put(war.archivePath.path, '/var/lib/tomcat7/webapps')
             //execute('sudo service tomcat restart')
         }
