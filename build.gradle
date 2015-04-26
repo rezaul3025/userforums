@@ -70,9 +70,9 @@ eclipse {
 
 remotes {
     codeashobby {
-        host = project.property('localhot:9090')
-        user = project.property('tomcat')
-        password = project.property('tomcat')
+        host = project.property(host)
+        user = project.property(host.user)
+        password = project.property(host.password)
     }
 }
 
