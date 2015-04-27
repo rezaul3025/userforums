@@ -90,7 +90,7 @@ eclipse {
 cargo {
     containerId = 'tomcat7x'
     port = 9090
-    context = 'mycontext'
+    context = 'userforums-0.0.1-SNAPSHOT'
     remote {
         hostname = '192.168.0.9'
         username = 'tomcat'
