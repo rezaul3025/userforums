@@ -7,12 +7,8 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'bmuschko:gradle-cargo-plugin:0.3'
     }
-}
-
-plugins {
-    id 'groovy'
-    id 'org.hidetake.ssh' version '1.0.1'
 }
 
 apply plugin: 'java'
@@ -60,6 +56,10 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security:spring-security-ldap:3.2.4.RELEASE')
+    
+    cargo 'org.codehaus.cargo:cargo-core-uberjar:1.1.1',
+          'org.codehaus.cargo:cargo-ant:1.1.1',
+          'jaxen:jaxen:1.1.1'
 }
 
 eclipse {
