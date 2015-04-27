@@ -19,7 +19,8 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
-apply plugin: 'cargo'
+//apply plugin: 'cargo'
+apply plugin: "com.bmuschko.cargo"
 
 
 war {
@@ -60,9 +61,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security:spring-security-ldap:3.2.4.RELEASE')
     
-    cargo 'org.codehaus.cargo:cargo-core-uberjar:1.1.1',
-          'org.codehaus.cargo:cargo-ant:1.1.1',
-          'jaxen:jaxen:1.1.1'
 }
 
 eclipse {
