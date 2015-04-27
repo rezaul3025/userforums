@@ -20,6 +20,7 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
+apply plugin: 'cargo'
 
 
 war {
@@ -68,23 +69,33 @@ eclipse {
     }
 }
 
-remotes {
-  webServer {
-    host = 'localhost'
-    user = 'tomcat'
-    password = 'tomcat'
-  }
-}
+//remotes {
+//  webServer {
+//    host = 'localhost'
+//    user = 'tomcat'
+  //  password = 'tomcat'
+//  }
+//}
 
-task deploy(dependsOn: war) << {
-    ssh.run {
-        session(remotes.webServer) {
-            put('build/libs/userforums-0.0.1-SNAPSHOT.war', '/var/lib/tomcat7/webapps')
+//task deploy(dependsOn: war) << {
+    //ssh.run {
+    //    session(remotes.webServer) {
+      //      put('build/libs/userforums-0.0.1-SNAPSHOT.war', '/var/lib/tomcat7/webapps')
             //execute('sudo service tomcat restart')
-        }
+    //    }
+  //  }
+//}
+
+cargo {
+    containerId = 'tomcat7x'
+    port = 9090
+    context = 'mycontext'
+    remote {
+        hostname = '192.168.0.9'
+        username = 'tomcat'
+        password = 'tomcat'
     }
 }
-
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
